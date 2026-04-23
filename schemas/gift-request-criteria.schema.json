@@ -1,0 +1,392 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://teamclass.dev/schemas/gift-request-criteria.schema.json",
+  "title": "Gift Request Criteria",
+  "description": "Normalized criteria schema for recipient and group corporate gift recommendation requests.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "requestType",
+    "criteria"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "const": "1.0"
+    },
+    "requestId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "requestType": {
+      "type": "string",
+      "enum": [
+        "recipient",
+        "group"
+      ]
+    },
+    "criteria": {
+      "$ref": "#/$defs/criteria"
+    },
+    "recipient": {
+      "$ref": "#/$defs/recipientProfile"
+    },
+    "group": {
+      "$ref": "#/$defs/groupProfile"
+    },
+    "notes": {
+      "type": "string",
+      "maxLength": 1000
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "requestType": {
+            "const": "recipient"
+          }
+        },
+        "required": [
+          "requestType"
+        ]
+      },
+      "then": {
+        "required": [
+          "recipient"
+        ],
+        "not": {
+          "required": [
+            "group"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "requestType": {
+            "const": "group"
+          }
+        },
+        "required": [
+          "requestType"
+        ]
+      },
+      "then": {
+        "required": [
+          "group"
+        ],
+        "not": {
+          "required": [
+            "recipient"
+          ]
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/nonEmptyString"
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "budget": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "currency",
+        "minAmount",
+        "maxAmount",
+        "budgetScope"
+      ],
+      "properties": {
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "description": "ISO 4217 currency code."
+        },
+        "minAmount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "maxAmount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "budgetScope": {
+          "type": "string",
+          "enum": [
+            "per_recipient",
+            "total"
+          ]
+        },
+        "isFlexible": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "targets"
+      ],
+      "properties": {
+        "targets": {
+          "$ref": "#/$defs/stringList",
+          "description": "Normalized role labels such as engineer, recruiter, executive."
+        },
+        "seniority": {
+          "type": "string",
+          "enum": [
+            "individual_contributor",
+            "manager",
+            "director",
+            "vp",
+            "executive",
+            "mixed",
+            "unknown"
+          ]
+        }
+      }
+    },
+    "ageRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "minAge",
+        "maxAge"
+      ],
+      "properties": {
+        "minAge": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "maxAge": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 120
+        },
+        "mixedAges": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "interests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "include"
+      ],
+      "properties": {
+        "include": {
+          "$ref": "#/$defs/stringList"
+        },
+        "exclude": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/nonEmptyString"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "occasion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": [
+            "birthday",
+            "work_anniversary",
+            "holiday",
+            "new_hire_welcome",
+            "client_thank_you",
+            "event_swag",
+            "milestone",
+            "other"
+          ]
+        },
+        "label": {
+          "type": "string",
+          "minLength": 1
+        },
+        "date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "quantity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "count"
+      ],
+      "properties": {
+        "count": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "splitStrategy": {
+          "type": "string",
+          "enum": [
+            "same_gift_for_all",
+            "small_set_of_options",
+            "fully_personalized"
+          ],
+          "default": "same_gift_for_all"
+        }
+      }
+    },
+    "region": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "countryCodes"
+      ],
+      "properties": {
+        "countryCodes": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "minItems": 1,
+          "uniqueItems": true,
+          "description": "ISO 3166-1 alpha-2 country codes."
+        },
+        "stateOrProvince": {
+          "$ref": "#/$defs/stringList"
+        },
+        "city": {
+          "$ref": "#/$defs/stringList"
+        },
+        "deliveryWindowDays": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "budget",
+        "role",
+        "ageRange",
+        "interests",
+        "occasion",
+        "quantity",
+        "region"
+      ],
+      "properties": {
+        "budget": {
+          "$ref": "#/$defs/budget"
+        },
+        "role": {
+          "$ref": "#/$defs/role"
+        },
+        "ageRange": {
+          "$ref": "#/$defs/ageRange"
+        },
+        "interests": {
+          "$ref": "#/$defs/interests"
+        },
+        "occasion": {
+          "$ref": "#/$defs/occasion"
+        },
+        "quantity": {
+          "$ref": "#/$defs/quantity"
+        },
+        "region": {
+          "$ref": "#/$defs/region"
+        }
+      }
+    },
+    "recipientProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "displayName"
+      ],
+      "properties": {
+        "displayName": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "department": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "relationship": {
+          "type": "string",
+          "enum": [
+            "employee",
+            "candidate",
+            "client",
+            "partner",
+            "other"
+          ]
+        }
+      }
+    },
+    "groupProfile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "recipientCount"
+      ],
+      "properties": {
+        "name": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "recipientCount": {
+          "type": "integer",
+          "minimum": 2
+        },
+        "segments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "label",
+              "size"
+            ],
+            "properties": {
+              "label": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "size": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "role": {
+                "$ref": "#/$defs/role"
+              },
+              "ageRange": {
+                "$ref": "#/$defs/ageRange"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
