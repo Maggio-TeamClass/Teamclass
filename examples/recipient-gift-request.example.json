@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "1.0",
+  "requestId": "req_2026_04_23_001",
+  "requestType": "recipient",
+  "criteria": {
+    "budget": {
+      "currency": "USD",
+      "minAmount": 40,
+      "maxAmount": 100,
+      "budgetScope": "per_recipient",
+      "isFlexible": true
+    },
+    "role": {
+      "targets": [
+        "software_engineer"
+      ],
+      "seniority": "individual_contributor"
+    },
+    "ageRange": {
+      "minAge": 25,
+      "maxAge": 34,
+      "mixedAges": false
+    },
+    "interests": {
+      "include": [
+        "coffee",
+        "productivity",
+        "desk_setup"
+      ],
+      "exclude": [
+        "alcohol"
+      ]
+    },
+    "occasion": {
+      "kind": "work_anniversary",
+      "date": "2026-05-15"
+    },
+    "quantity": {
+      "count": 1,
+      "splitStrategy": "fully_personalized"
+    },
+    "region": {
+      "countryCodes": [
+        "US"
+      ],
+      "stateOrProvince": [
+        "CA"
+      ],
+      "city": [
+        "San Francisco"
+      ],
+      "deliveryWindowDays": 7
+    }
+  },
+  "recipient": {
+    "displayName": "Alex Johnson",
+    "department": "Engineering",
+    "relationship": "employee"
+  },
+  "notes": "Avoid fragile items; prefers practical gifts."
+}

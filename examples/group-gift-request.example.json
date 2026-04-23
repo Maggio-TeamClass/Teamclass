@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "1.0",
+  "requestId": "req-group-q2-kickoff",
+  "requestType": "group",
+  "criteria": {
+    "budget": {
+      "currency": "USD",
+      "minAmount": 20,
+      "maxAmount": 55,
+      "budgetScope": "per_recipient",
+      "isFlexible": true
+    },
+    "role": {
+      "targets": [
+        "engineer",
+        "designer",
+        "product_manager"
+      ],
+      "seniority": "mixed"
+    },
+    "ageRange": {
+      "minAge": 24,
+      "maxAge": 45,
+      "mixedAges": true
+    },
+    "interests": {
+      "include": [
+        "coffee",
+        "wellness",
+        "desk_accessories"
+      ],
+      "exclude": [
+        "alcohol"
+      ]
+    },
+    "occasion": {
+      "kind": "event_swag",
+      "label": "Q2 onsite kickoff"
+    },
+    "quantity": {
+      "count": 30,
+      "splitStrategy": "small_set_of_options"
+    },
+    "region": {
+      "countryCodes": [
+        "US",
+        "CA"
+      ],
+      "deliveryWindowDays": 14
+    }
+  },
+  "group": {
+    "name": "Product and Engineering Onsite Cohort",
+    "recipientCount": 30,
+    "segments": [
+      {
+        "label": "Remote Canada",
+        "size": 10,
+        "role": {
+          "targets": [
+            "engineer"
+          ],
+          "seniority": "individual_contributor"
+        },
+        "ageRange": {
+          "minAge": 24,
+          "maxAge": 38
+        }
+      },
+      {
+        "label": "US leadership",
+        "size": 6,
+        "role": {
+          "targets": [
+            "engineering_manager",
+            "product_lead"
+          ],
+          "seniority": "manager"
+        },
+        "ageRange": {
+          "minAge": 31,
+          "maxAge": 45
+        }
+      }
+    ]
+  },
+  "notes": "Prefer compact gifts that travel well and can be branded."
+}
