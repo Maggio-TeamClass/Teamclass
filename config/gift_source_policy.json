@@ -1,0 +1,106 @@
+{
+  "policy_id": "CHR-35",
+  "version": "2026-04-23",
+  "description": "Default source policy for corporate gift recommendation generation.",
+  "approved_source_types": [
+    {
+      "type": "vendor_product_page",
+      "priority": 1,
+      "score_weight": 1.0
+    },
+    {
+      "type": "vendor_category_collection_page",
+      "priority": 2,
+      "score_weight": 0.9
+    },
+    {
+      "type": "vendor_gifting_program_page",
+      "priority": 3,
+      "score_weight": 0.85
+    },
+    {
+      "type": "trusted_marketplace_listing",
+      "priority": 4,
+      "score_weight": 0.75
+    },
+    {
+      "type": "reputable_editorial_gift_guide",
+      "priority": 5,
+      "score_weight": 0.65
+    }
+  ],
+  "approved_vendor_domains": {
+    "priority_1_direct_corporate_gifting": [
+      "loopandtie.com",
+      "sugarwish.com",
+      "snackmagic.com",
+      "giftsforgood.com",
+      "corporategift.com",
+      "sendoso.com",
+      "goody.com",
+      "packedwithpurpose.gifts"
+    ],
+    "priority_2_reliable_general_vendors": [
+      "1-800-flowers.com",
+      "harryanddavid.com",
+      "uncommongoods.com",
+      "oliveandcocoa.com",
+      "gourmetgiftbaskets.com",
+      "giftbasket.com",
+      "worldmarket.com",
+      "etsy.com"
+    ],
+    "priority_3_editorial_research_only": [
+      "nytimes.com",
+      "wirecutter.com",
+      "forbes.com",
+      "foodandwine.com",
+      "goodhousekeeping.com"
+    ]
+  },
+  "excluded_source_types": [
+    "coupon_aggregator",
+    "cashback_portal",
+    "user_generated_forum_post",
+    "social_media_post",
+    "video_only_recommendation",
+    "expired_deal_page",
+    "pdf_catalog_without_checkout",
+    "affiliate_link_farm",
+    "seo_content_farm"
+  ],
+  "excluded_domains": [
+    "temu.com",
+    "aliexpress.com",
+    "wish.com",
+    "dhgate.com",
+    "craigslist.org",
+    "facebook.com/marketplace"
+  ],
+  "domain_rules": [
+    {
+      "domain": "amazon.com",
+      "status": "conditional",
+      "allowed_when": [
+        "seller_rating_at_least_4_5",
+        "review_count_at_least_100",
+        "prime_or_verified_shipping_available"
+      ]
+    },
+    {
+      "domain": "etsy.com",
+      "status": "conditional",
+      "allowed_when": [
+        "shop_rating_at_least_4_7",
+        "review_count_at_least_200",
+        "processing_time_days_lte_5"
+      ]
+    }
+  ],
+  "hard_filters": {
+    "must_have_price": true,
+    "must_ship_to_destination": true,
+    "must_be_in_stock": true,
+    "exclude_age_restricted_or_inappropriate_items": true
+  }
+}
