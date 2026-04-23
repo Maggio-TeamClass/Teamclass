@@ -50,7 +50,7 @@ def test_collect_candidates_filters_to_approved_sources_and_deduplicates() -> No
     assert all(candidate.source_domain.endswith("approved.com") for candidate in candidates)
     assert candidates[0].matched_interests == ["coffee", "remote"]
     assert candidates[1].matched_interests == ["remote"]
-    assert candidates[0].url == "https://www.approved.com/gifts/coffee-box"
+    assert candidates[0].url == "https://approved.com/gifts/coffee-box"
     assert candidates[0].candidate_id
 
 
