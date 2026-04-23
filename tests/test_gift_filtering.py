@@ -31,9 +31,11 @@ def _sample_options() -> list[GiftOption]:
 
 
 def test_filters_by_budget_range() -> None:
-    constraints = RequestConstraints(min_budget_per_unit=40, max_budget_per_unit=100)
+    constraints = RequestConstraints(
+        min_budget_per_unit=40, max_budget_per_unit=100, quantity=5
+    )
     filtered = filter_gift_options(_sample_options(), constraints)
-    assert [item.name for item in filtered] == []
+    assert [item.name for item in filtered] == ["Premium Notebook"]
 
 
 def test_filters_by_quantity_bounds() -> None:
@@ -53,13 +55,13 @@ def test_filters_by_quantity_and_total_budget() -> None:
 
 
 def test_filters_by_shipping_region_case_insensitive() -> None:
-    constraints = RequestConstraints(shipping_region="US")
+    constraints = RequestConstraints(shipping_region="US", quantity=5)
     filtered = filter_gift_options(_sample_options(), constraints)
-    assert [item.name for item in filtered] == ["Luxury Hamper"]
+    assert [item.name for item in filtered] == ["Premium Notebook", "Luxury Hamper"]
 
 
 def test_filters_by_occasion_exclusions() -> None:
-    constraints = RequestConstraints(occasion=" Halloween ")
+    constraints = RequestConstraints(occasion=" Halloween ", quantity=5)
     filtered = filter_gift_options(_sample_options(), constraints)
     assert [item.name for item in filtered] == ["Premium Notebook", "Desk Plant"]
 
